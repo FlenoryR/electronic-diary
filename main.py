@@ -8,7 +8,8 @@ def output_menu_item():
     print('2 - список классов.')
     print('3 - вывести информацию об ученике.')
     print('4 - добавить нового ученика.')
-    print('5 - применить изменения.')
+    print('5 - добавить оценку по предмету ученику.')
+    print('6 - применить изменения.')
 
 
 def main():
@@ -40,9 +41,10 @@ def main():
         elif user_input_command == '3':
             student_name, classroom_name = input('Введите имя ученика и название класса через запятую: ').split(',')
 
-            print(
-                content[classroom_name]['students'][student_name]
-            )
+            print(f'{student_name}, {classroom_name}')
+            for obj in content[classroom_name]['students'][student_name]:
+                print(f'{obj}: {", ".join(content[classroom_name]["students"][student_name][obj])}')
+
         elif user_input_command == '4':
             input_class_room = input('Введите название класса: ')
 
@@ -52,6 +54,14 @@ def main():
             else:
                 print('Ошибка! Такого класса не существует.')
         elif user_input_command == '5':
+            student_name, classroom_name, premdet, ocenka = \
+                input('Введите имя ученика, название класса, предмет и оценку: ').split(',')
+
+            if premdet in content[classroom_name]['students'][student_name]:
+                content[classroom_name]['students'][student_name][premdet].append(ocenka)
+            else:
+                content[classroom_name]['students'][student_name][premdet] = [int(ocenka)]
+        elif user_input_command == '6':
             save_data(content)
 
 
